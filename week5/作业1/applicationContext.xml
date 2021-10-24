@@ -1,0 +1,58 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans.xsd">
+    <!-- 根据类的空参构造函数构建简单的bean实例,默认是单例的(在这个容器中) -->
+    <bean name="dogSimple" class="com.tgt.common.bean.Boy"></bean>
+
+    <!-- 根据类的带参构造函数构建简单的bean实例,参数为简单类型 -->
+    <bean name="dogConstructor" class="com.tgt.common.bean.Boy">
+        <constructor-arg value="lucy" />
+    </bean>
+
+    <!-- 根据类的带参构造函数构建简单的bean实例,参数为集合类型 -->
+    <bean name="dogConstructorList" class="com.tgt.common.bean.Boy">
+        <constructor-arg>
+            <list>
+                <value>lucy</value>
+                <value>tom</value>
+            </list>
+        </constructor-arg>
+    </bean>
+
+    <!-- 根据根据类的带参构造函数构建简单的bean实例,参数为引用类型 -->
+    <bean id="actorConstructorRef" class="com.tgt.common.bean.Actor">
+        <constructor-arg ref="dogConstructorList"></constructor-arg>
+    </bean>
+
+    <!-- 根据类的静态方法构建bean实例 -->
+    <bean id="stage" class="com.tgt.common.bean.Stage" factory-method="getInstance">
+    </bean>
+
+    <!-- 根据类的空参构造函数构建简单的bean实例,每次获取bean的时候都会重新构建一个新的实例 -->
+    <bean id="personPrototype" class="com.tgt.common.bean.Person" scope="prototype">
+    </bean>
+
+    <!-- 这个bean是为下面的String像Date转换做准备的 -->
+    <bean id="dateFormat" class="java.text.SimpleDateFormat">
+        <constructor-arg value="yyyy-MM-dd" />
+    </bean>
+
+    <!-- 根据类的空参构造函数构建简单的bean实例,并且初始化属性设置 -->
+    <bean id="personProperty" class="com.tgt.common.bean.Person">
+        <property name="name" value="晓明" />
+        <property name="age" value="20" />
+        <property name="birthday">
+            <bean factory-bean="dateFormat" factory-method="parse">
+                <constructor-arg value="1995-02-03" />
+            </bean>
+        </property>
+        <property name="scores">
+            <list>
+                <value>98</value>
+                <value>65</value>
+                <value>83</value>
+            </list>
+        </property>
+    </bean>
+</beans>
