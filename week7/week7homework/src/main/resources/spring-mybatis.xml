@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+
+
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource"
+          init-method="init" destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://127.0.0.1:3306/javacourse?rewriteBatchedStatements=true" />
+        <property name="username" value="root" />
+        <property name="password" value="aaa123456!" />
+        <property name="validationQuery" value="select 1"></property>
+        <property name="testOnBorrow" value="true"></property>
+    </bean>
+    <bean id="dataSource2" class="com.alibaba.druid.pool.DruidDataSource"
+          init-method="init" destroy-method="close">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://192.168.249.117:3306/javacourse?rewriteBatchedStatements=true" />
+        <property name="username" value="hive" />
+        <property name="password" value="hive" />
+        <property name="validationQuery" value="select 1"></property>
+        <property name="testOnBorrow" value="true"></property>
+    </bean>
+    <bean id="multiDataSource" class="com.week7.jdbc.work3.datasource.MultiDataSource">
+        <property name="defaultTargetDataSource" ref="dataSource"></property>
+        <property name="targetDataSources">
+            <map>
+                <entry key="dataSource2" value-ref="dataSource2"></entry>
+            </map>
+        </property>
+    </bean>
+    <!-- mybatis -->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="multiDataSource"></property>
+        <property name="configLocation" value="classpath:mybatis-config.xml"></property>
+        <property name="mapperLocations" value="classpath:mapper/*.xml"></property>
+    </bean>
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"></property>
+        <property name="basePackage" value="com.week7.jdbc.work3.mapper"></property>
+    </bean>
+
+    <!-- 添加事务管理 -->
+    <tx:annotation-driven transaction-manager="transactionManager" />
+
+    <bean id="transactionManager"
+          class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="multiDataSource"></property>
+    </bean>
+
+</beans>
