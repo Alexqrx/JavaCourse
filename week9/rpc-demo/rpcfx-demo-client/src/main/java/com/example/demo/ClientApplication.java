@@ -10,7 +10,7 @@ import com.example.demo.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * @author lw
+ *
  */
 @Slf4j
 public class ClientApplication {

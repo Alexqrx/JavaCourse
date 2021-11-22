@@ -3,7 +3,7 @@ package com.example.demo.proxy;
 import java.lang.reflect.Proxy;
 
 /**
- * @author lw
+ *
  */
 public class RpcClientJdk extends RpcProxy implements RpcClient {
 

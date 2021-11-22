@@ -12,7 +12,7 @@ import java.util.concurrent.CountDownLatch;
 
 /**
  * 这里使用并发的等待-通知机制来拿到结果
- * @author lw
+ *
  */
 @Slf4j
 public class RpcClientSyncHandler extends SimpleChannelInboundHandler<RpcProtocol> {

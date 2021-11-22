@@ -3,7 +3,7 @@ package com.example.demo.model;
 import lombok.Data;
 
 /**
- * @author lw
+ *
  */
 @Data
 public class User {

@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 /**
  * 配置接口的实现类
  *
- * @author lw
+ *
  */
 @Configuration
 public class BeanConfig {
